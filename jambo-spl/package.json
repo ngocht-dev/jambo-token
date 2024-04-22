@@ -1,0 +1,22 @@
+{
+  "name": "jambo-spl",
+  "version": "1.0.0",
+  "scripts": {
+    "deploy": "npx ts-node -r tsconfig-paths/register"
+  },
+  "dependencies": {
+    "@metaplex-foundation/mpl-candy-machine": "^6.0.1",
+    "@metaplex-foundation/mpl-token-metadata": "^3.2.1",
+    "@metaplex-foundation/umi": "^0.9.1",
+    "@metaplex-foundation/umi-bundle-defaults": "^0.9.1",
+    "@solana/web3.js": "^1.91.2",
+    "bs58": "^5.0.0",
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.4.3"
+  }
+}
