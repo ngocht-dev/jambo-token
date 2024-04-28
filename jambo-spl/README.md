@@ -6,10 +6,11 @@
 
 ### First, we need to prepare two wallet accounts:
 - payer: a wallet account to pay for gasfee.
-- owner: a wallet account is used to manage tokens and has ownership of the tokens.
+- creator: a wallet account is used to create tokens.
+- owner: a multisig wallet account is used to manage tokens and has ownership of the tokens.
 
 ### Next, we need to set the keypair file paths of the two wallet accounts into the tool.
-- edit the **LOCAL_PAYER_JSON_ABSPATH** and **LOCAL_OWNER_JSON_ABSPATH** environment variables in the **.env** file in the project.
+- edit the **LOCAL_PAYER_JSON_ABSPATH** and **LOCAL_CREATOR_JSON_ABSPATH** environment variables in the **.env** file in the project.
 
 for example:
 
@@ -17,10 +18,10 @@ for example:
     LOCAL_PAYER_JSON_ABSPATH=/home/<username>/.config/solana/payer.json
 
     # absolute path for a local keypair file
-    LOCAL_OWNER_JSON_ABSPATH=/home/<username>/.config/solana/owner.json
+    LOCAL_CREATOR_JSON_ABSPATH=/home/<username>/.config/solana/creator.json
 
 - if you want to create tokens more easily, simply place the two keypair files into the **.local_keys** directory of the project.
-*Note: The file naming convention must be set to **payer.json** and **owner.json***
+*Note: The file naming convention must be set to **payer.json** and **creator.json***
 
 ### Finally, we need to configure metadata information.
 
@@ -41,7 +42,6 @@ After uploading this json file to IPFS, enter the **IPFS_URL** into the uri.
   symbol: "JAMBO",
   uri: "<IPFS_URL>",
   decimals: 8,                     // Fixed to 8
-  supply: 100000000,        // 100M JAMBO
 }
 ```
 
@@ -90,7 +90,7 @@ Solana Token Creator
 ===============================================
 
 Payer address: 9Zv2gfE5kLivXe5uh2ycswUUNW3RsQwbwsDrgTX55jbt
-Owner address: 93vCRYyyoxWajz6M58dpNEXm1bQRCvwZSFtnuZeZ9vrv
+Creator address: 93vCRYyyoxWajz6M58dpNEXm1bQRCvwZSFtnuZeZ9vrv
 Token address: GsYv3XJPQ7bQWhcsnL7kKeTbYHVekFDzQ4bG8UXiHMSv
 
 ===============================================
@@ -98,5 +98,23 @@ Token address: GsYv3XJPQ7bQWhcsnL7kKeTbYHVekFDzQ4bG8UXiHMSv
 
 Transaction completed.
 https://explorer.solana.com/tx/89MH2opzEiusKnBKPEinh7L9L62UAP87gUkkWEunwZK4S6pvVdpa1uSSMqfGKw6oTxyB35DgN2RgZNVVptUHbib?cluster=devnet
+
+```
+
+4. Set the mint account's minting authority to the owner multisig account
+
+```
+spl-token authorize <TOKEN_ADDRESS> mint <OWNER_MULTISIG_ADDRESS>
+
+```
+
+5. Mint the token with owner multisig account
+
+```
+spl-token mint <TOKEN_ADDRESS> 50 <RECIPIENT_TOKEN_ACCOUNT_ADDRESS> \
+--owner <OWNER_MULTISIG_ADDRESS> \
+--multisig-signer signer-1.json \
+--multisig-signer signer-2.json \
+--multisig-signer signer-3.json
 
 ```

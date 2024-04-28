@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 
-import { clusterApiUrl } from "@solana/web3.js";
+import { clusterApiUrl, Keypair } from "@solana/web3.js";
 import { loadKeypairFromFile, loadOrGenerateKeypair } from "./helpers";
 
 // load the env variables from file
@@ -20,6 +20,10 @@ export const payer = process.env?.LOCAL_PAYER_JSON_ABSPATH
  */
 export const owner = process.env?.LOCAL_OWNER_JSON_ABSPATH
   ? loadKeypairFromFile(process.env?.LOCAL_OWNER_JSON_ABSPATH)
+  : loadOrGenerateKeypair("owner");
+
+export const creator = process.env?.LOCAL_CREATOR_JSON_ABSPATH
+  ? loadKeypairFromFile(process.env?.LOCAL_CREATOR_JSON_ABSPATH)
   : loadOrGenerateKeypair("owner");
 
 // load the env variables and store the cluster RPC url

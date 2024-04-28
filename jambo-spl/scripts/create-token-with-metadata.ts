@@ -1,7 +1,6 @@
 import {
   mplTokenMetadata,
-  createAndMint,
-  TokenStandard,
+  createFungible,
 } from "@metaplex-foundation/mpl-token-metadata";
 import { mplCandyMachine } from "@metaplex-foundation/mpl-candy-machine";
 import { createUmi } from "@metaplex-foundation/umi-bundle-defaults";
@@ -34,7 +33,7 @@ import { explorerURL, printConsoleSeparator } from "../lib/helpers";
   //////////////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////
 
-  console.log("Owner address:", owner.publicKey.toBase58());
+  console.log("Creator address:", owner.publicKey.toBase58());
   console.log("Payer address:", payer.publicKey.toBase58());
 
   //////////////////////////////////////////////////////////////////////////////
@@ -58,7 +57,7 @@ import { explorerURL, printConsoleSeparator } from "../lib/helpers";
 
   printConsoleSeparator();
 
-  const tx = createAndMint(umi, {
+  const tx = createFungible(umi, {
     mint,
     authority: umi.identity,
     name: metadata.name,
@@ -66,9 +65,6 @@ import { explorerURL, printConsoleSeparator } from "../lib/helpers";
     uri: metadata.uri,
     sellerFeeBasisPoints: percentAmount(0),
     decimals: metadata.decimals,
-    amount: metadata.supply * Math.pow(10, metadata.decimals),
-    tokenOwner: umi.identity.publicKey,
-    tokenStandard: TokenStandard.Fungible,
   });
 
   try {
